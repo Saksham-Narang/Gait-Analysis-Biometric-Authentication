@@ -10,7 +10,6 @@ def load_X(path):
     X_signals = []
     files = os.listdir(path)
     files.sort(key=str.lower)
-    #['train_acc_x.txt', 'train_acc_y.txt', 'train_acc_z.txt', 'train_gyr_x.txt', 'train_gyr_y.txt', 'train_gyr_z.txt']
     for my_file in files:
         fileName = os.path.join(path,my_file)
         file = open(fileName, 'r')
@@ -20,13 +19,11 @@ def load_X(path):
             ]]
         )
         file.close()
-        #X_signals = 6*totalStepNum*128
-    X_signals = np.transpose(np.array(X_signals), (1, 0, 2))#(totalStepNum*6*128)
-    return X_signals.reshape(-1,6,128,1)#(totalStepNum*6*128*1)
+    X_signals = np.transpose(np.array(X_signals), (1, 0, 2))
+    return X_signals.reshape(-1,6,128,1)
 
 def load_y(y_path):
     file = open(y_path, 'r')
-    # Read dataset from disk, dealing with text file's syntax
     y_ = np.array(
         [elem for elem in [
             row.replace('  ', ' ').strip().split(' ') for row in file
@@ -34,12 +31,11 @@ def load_y(y_path):
         dtype=np.int32
     )
     file.close()
-    # Substract 1 to each output class for friendly 0-based indexing
     y_ = y_ - 1
     #one_hot
     y_ = y_.reshape(len(y_))
     n_values = int(np.max(y_)) + 1
-    return np.eye(n_values)[np.array(y_, dtype=np.int32)]  # Returns FLOATS
+    return np.eye(n_values)[np.array(y_, dtype=np.int32)]  
 
 def weight_variable(shape):
     initial = tf.truncated_normal(shape, stddev=0.1)
@@ -54,8 +50,6 @@ batch_size = 512
 X_ = tf.placeholder(tf.float32, [None, 6, 128, 1],name='cnn_X')
 label_ = tf.placeholder(tf.float32, [None, 98],name='cnn_Y')
 
-#input shape [batch, in_height, in_width, in_channels]
-#kernel shape [filter_height, filter_width, in_channels, out_channels]
 '''
 	1*9
 	stride = 2 
@@ -154,7 +148,6 @@ for i in range(200):
         if idx % 100 == 0:
             print(str(i) + 'the cross_entropy:', str(loss), 'train_accuracy:', str(acc))
             f.write(str(i) + 'the cross_entropy:'+str(loss)+'train_accuracy:'+str(acc))
-        # Test completely at every epoch: calculate accuracy
     accuracy_out, loss_out = sess.run(
         [accuracy, cross_entropy],
         feed_dict={

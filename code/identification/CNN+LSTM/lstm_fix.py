@@ -13,7 +13,6 @@ def load_X(path):
     files = os.listdir(path)
     files.sort(key=str.lower)
 
-    #['train_acc_x.txt', 'train_acc_y.txt', 'train_acc_z.txt', 'train_gyr_x.txt', 'train_gyr_y.txt', 'train_gyr_z.txt']
     for my_file in files:
         fileName = os.path.join(path,my_file)
         file = open(fileName, 'r')
@@ -23,11 +22,9 @@ def load_X(path):
             ]]
         )
         file.close()
-        #X_signals = 6*totalStepNum*128
-    return np.transpose(np.array(X_signals), (1, 2, 0))#(totalStepNum*128*6)
+    return np.transpose(np.array(X_signals), (1, 2, 0))
 def load_y(y_path):
     file = open(y_path, 'r')
-    # Read dataset from disk, dealing with text file's syntax
     y_ = np.array(
         [elem for elem in [
             row.replace('  ', ' ').strip().split(' ') for row in file
@@ -35,14 +32,11 @@ def load_y(y_path):
         dtype=np.int32
     )
     file.close()
-    # Substract 1 to each output class for friendly 0-based indexing
     y_ = y_ - 1
     #one_hot
     y_ = y_.reshape(len(y_))
     n_values = int(np.max(y_)) + 1
-    return np.eye(n_values)[np.array(y_, dtype=np.int32)]  # Returns FLOATS
-
-#---------------------------the part of CNN---------------------------------
+    return np.eye(n_values)[np.array(y_, dtype=np.int32)] 
 def weight_variable(shape):
     initial = tf.truncated_normal(shape, stddev=0.1)
     return tf.Variable(initial)
@@ -50,13 +44,10 @@ def weight_variable(shape):
 def bias_variable(shape):
     initial = tf.constant(0.1, shape=shape)
     return tf.Variable(initial)
-#----------------------------------the part of LSTM--------------------------------
 
 def CNN_NetWork(X_):
     CNN_input = tf.transpose(X_,[0,2,1])
     CNN_input = tf.reshape(CNN_input, [-1, 6, 128, 1])
-    # input shape [batch, in_height, in_width, in_channels]
-    # kernel shape [filter_height, filter_width, in_channels, out_channels]
     '''
     	1*9
     	stride = 2 
@@ -119,7 +110,6 @@ def last_full_connection_layer(lstm_output,cnn_output):
 
     W_fc2 = weight_variable([1024+2048, 118])
     b_fc2 = bias_variable([118])
-    #y_conv = tf.nn.softmax(tf.matmul(h_fc1, W_fc2) + b_fc2)
     return tf.nn.softmax(tf.matmul(eigen_input, W_fc2) + b_fc2)
 
 class model:
@@ -189,7 +179,6 @@ for i in range(100):
     for idx in range(batch_idxs):
         image_idx = X_train[index[idx * batch_size:(idx + 1) * batch_size]]
         label_idx = train_label[index[idx * batch_size:(idx + 1) * batch_size]]
-        # produce data for last full connection
         data4lstm = lstm_model.produce(image_idx)
 
         sess.run(train_step,feed_dict={
@@ -197,7 +186,6 @@ for i in range(100):
             X_:image_idx,
             label_:label_idx
         })
-    # Test completely at every epoch: calculate accuracy
 
     test4lstm = lstm_model.produce(X_test)
     accuracy_out, loss_out = sess.run(

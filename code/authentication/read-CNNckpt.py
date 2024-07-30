@@ -25,13 +25,11 @@ def load_X(path):
             ]]
         )
         file.close()
-        #X_signals = 6*totalStepNum*128
     X_signals = np.transpose(np.array(X_signals), (1, 0, 2))#(totalStepNum*6*128)
     return X_signals.reshape(-1,6,256,1)#(totalStepNum*6*128*1)
 
 def load_y(y_path):
     file = open(y_path, 'r')
-    # Read dataset from disk, dealing with text file's syntax
     y_ = np.array(
         [elem for elem in [
             row.replace('  ', ' ').strip().split(' ') for row in file
@@ -39,7 +37,6 @@ def load_y(y_path):
         dtype=np.int32
     )
     file.close()
-    # Substract 1 to each output class for friendly 0-based indexing
     y_ = y_ - 1
     #one_hot
     y_ = y_.reshape(len(y_))
@@ -58,9 +55,6 @@ def bias_variable(shape):
 batch_size = 512
 X_ = tf.placeholder(tf.float32, [None, 6, 128, 1],name='cnn_X')
 label_ = tf.placeholder(tf.float32, [None, 118],name='cnn_Y')
-
-#input shape [batch, in_height, in_width, in_channels]
-#kernel shape [filter_height, filter_width, in_channels, out_channels]
 '''
 	1*9
 	stride = 2 
@@ -208,7 +202,7 @@ else:
         print(len(val_loss_1[0]))
         print(len(val_loss_1[0][0][0]))
         print(len(val_loss_1[0][0][0][0]))
-        所以格式是1*1*1*16*128
+        1*1*1*16*128
 '''
 
 '''
