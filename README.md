@@ -31,12 +31,6 @@ The ‘CNNfix+LSTM’ network, as have been introduced in Fig. 5, using horizont
 ### CNNfix+LSTM vertical
 The ‘CNNfix+LSTM’ network using vertically aligned data pairs as the input. The weight parameters of CNN are fixed in the training.
 
-## Codes Download:
-You can download these codes from the following link：
-
-https://github.com/qinnzou/Gait-Recognition-Using-Smartphones/tree/master/code
-
-# whuGAIT Datasets
 ## Dataset for Identification & Authentication
 ![image](https://github.com/qinnzou/Gait-Recognition-Using-Smartphones/blob/master/images/datasets-for-identification%26authentication.png)
 A number of 118 subjects are involved in the data collection. Among them, 20 subjects collect a larger amount of data in two days, with each has thousands of samples, and 98 subjects collect a smaller amount of data in one day, with each has hundreds of samples. Each data sample contains the 3-axis accelerometer data and the 3-axis gyroscope data. The sampling rate of all sensor data is 50 Hz. According to the different evaluation purposes, we construct six datasets based on the collected data. 
@@ -73,28 +67,6 @@ You can download these datasets from the following link：
 
 https://drive.google.com/drive/folders/1KOm-zROeOZH3e2tqYUpHAvIaBZSJGFm_?usp=sharing  
 
-or https://1drv.ms/f/s!AittnGm6vRKLyh3yWS7XaXfyUNQp  
-
-or BaiduYun:  
-https://pan.baidu.com/s/18mYLZspZT39G7TyOuQC5Aw   
-Passcodes：mfz0   
-
-For the classificaiton and authentication datasets constructed based on OU-ISIR used in our paper, we shared it at  
-Link：https://pan.baidu.com/s/1Q1MVM6Y53yr6WicG0cw8Vw   
-Passcodes：v1ls
-
-
-We also provide the orignal raw data of the dataset (98 subjects and 20 subjects) :
-link： https://pan.baidu.com/s/1aMiftAukgAuzoZftwJZiDw 
-code：140w
-
-
-# Set up
-## Requirements
-PyTorch 0.4.0  
-Python 3.6  
-CUDA 8.0  
-We run on the Intel Core Xeon E5-2630@2.3GHz, 64GB RAM and two GeForce GTX TITAN-X GPUs.
 
 # Results
 ## Results for Gait-Extraction
